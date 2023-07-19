@@ -4,3 +4,10 @@ CREATE TABLE productos (
   precio INT NOT NULL,
   descripcion TEXT
 );
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo_electronico VARCHAR(100) NOT NULL,
+    telefono VARCHAR(15),
+    dni CHAR(8) NOT NULL
+);

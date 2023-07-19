@@ -21,6 +21,10 @@ def productos():
 def inicio():
      return render_template('inicio.html')
 
+@app.route('/c')
+def clientes():
+     return render_template('clientes.html')
+
 class ProductosResource(Resource):
     contador=0
     def get(self):
@@ -45,7 +49,30 @@ class ProductosResource(Resource):
 
         return {'message': 'Producto agregado correctamente'}, 201
 
+class ClientesResource(Resource):
+    def get(self):
+           # Obtener todos los clientes de la base de datos
+           cur=mysql.connection.cursor()
+           cur.execute("SELECT * FROM CLIENTES")
+           clientes=cur.fetchall()
+           cur.close()
+           return {'clientes':clientes}, 200
+    def post(self):
+           # Agregar un nuevo producto a la base de datos
+           nombre=request.json['nombre']
+           correo_electronico=request.json['correo_electronico']
+           telefono=request.json['telefono']
+           dni=request.json['dni']
+
+           cur=mysql.connection.cursor()
+           cur.execute("INSERT INTO clientes (nombre, correo_electronico, telefono, dni) VALUES (%s, %s, %s, %s)", (nombre,correo_electronico,telefono,dni))
+           mysql.connection.commit()
+           cur.close()
+
+           return {'message': 'Cliente agregado correctamente'}, 201
+        
 api.add_resource(ProductosResource, '/productos')
+api.add_resource(ClientesResource, '/clientes')
 
 if __name__ == '__main__':
     app.run(debug=True)
