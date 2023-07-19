@@ -13,9 +13,13 @@ app.config['MYSQL_DB'] = 'Tienda'
 mysql = MySQL(app)
 
 #Renderizar la vista de la ruta inicial
-@app.route('/')
+@app.route('/p')
 def productos():
     return render_template('productos.html')
+
+@app.route('/')
+def inicio():
+     return render_template('inicio.html')
 
 class ProductosResource(Resource):
     contador=0
